@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Cards from './Cards'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
@@ -67,9 +67,26 @@ const HomeProducts = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null)
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024)
 
-  const itemsPerSlide = 5
+  // Determine items per slide based on screen size
+  const itemsPerSlide = windowWidth < 768 ? 1 : 5
   const totalSlides = Math.max(1, cards.length - itemsPerSlide + 1)
+
+  // Update window width on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+    
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Reset slide position when items per slide changes
+  useEffect(() => {
+    setCurrentSlide(0)
+  }, [itemsPerSlide])
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1 < totalSlides ? prev + 1 : prev))
@@ -92,7 +109,7 @@ const HomeProducts = () => {
     }
   }
 
-  // Cards visible in the slider (5 at a time)
+  // Cards visible in the slider
   const visibleCards = cards.slice(currentSlide, currentSlide + itemsPerSlide)
 
   return (
@@ -122,35 +139,42 @@ const HomeProducts = () => {
 
       {/* SLIDER */}
       <div className="relative group">
-        {/* Slide Items */}
+        {/* Slide Items - Responsive container */}
         <div className="flex transition-transform duration-500 ease-in-out gap-4">
           {visibleCards.map((item, index) => (
-            <Cards
-              key={index}
-              url={item.url}
-              header={item.header}
-              price={item.price}
-              rating={item.rating}
-              isHovered={hoveredCardIndex === index}
-              onHover={() => setHoveredCardIndex(index)}
-              onLeave={() => setHoveredCardIndex(null)}
-            />
+            <div 
+              key={index} 
+              className={`${windowWidth < 768 ? 'w-full' : 'flex-1 min-w-0'}`}
+            >
+              <Cards
+                url={item.url}
+                header={item.header}
+                price={item.price}
+                rating={item.rating}
+                isHovered={hoveredCardIndex === index}
+                onHover={() => setHoveredCardIndex(index)}
+                onLeave={() => setHoveredCardIndex(null)}
+              />
+            </div>
           ))}
         </div>
 
-        {/* Prev Button */}
+        {/* Navigation Buttons - Always visible on mobile */}
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition"
+          className={`absolute left-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md transition ${
+            windowWidth < 768 ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+          }`}
           aria-label="Previous Slide"
         >
           <FaChevronLeft />
         </button>
 
-        {/* Next Button */}
         <button
           onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition"
+          className={`absolute right-0 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md transition ${
+            windowWidth < 768 ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+          }`}
           aria-label="Next Slide"
         >
           <FaChevronRight />

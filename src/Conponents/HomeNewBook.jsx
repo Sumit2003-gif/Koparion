@@ -25,7 +25,6 @@ const bookList2 = [
   { url: "https://demo.towerthemes.com/tt_koparion/image/cache/catalog/product/Book/11-600x770.jpg", header: "Blue Like Jazz", price: "$110.00", rating: 3 },
 ];
 
-
 const HomeNewBook = () => {
   const swiper1Ref = useRef(null);
   const swiper2Ref = useRef(null);
@@ -45,74 +44,87 @@ const HomeNewBook = () => {
   };
 
   return (
-    <div className="px-4 py-8 max-w-[1300px] mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-8">NEW BOOKS</h1>
+    <div className="px-4 py-6 md:py-8 max-w-[1300px] mx-auto">
+      <h1 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">NEW BOOKS</h1>
 
       {/* === First Swiper === */}
-      <Swiper
-        onSwiper={(swiper) => (swiper1Ref.current = swiper)}
-        slidesPerView={5}
-        slidesPerGroup={1}
-        spaceBetween={30}
-        modules={[Navigation]}
-        className="mb-12"
-      >
-        {bookList1.map((book, index) => (
-          <SwiperSlide key={index}>
-            <Cards
-              {...book}
-              isHovered={hoveredIndex1 === index}
-              onHover={() => setHoveredIndex1(index)}
-              onLeave={() => setHoveredIndex1(null)}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="relative">
+        <Swiper
+          onSwiper={(swiper) => (swiper1Ref.current = swiper)}
+          slidesPerView={1}
+          spaceBetween={15}
+          breakpoints={{
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            768: { slidesPerView: 3, spaceBetween: 25 },
+            1024: { slidesPerView: 5, spaceBetween: 30 }
+          }}
+          modules={[Navigation]}
+          className="mb-10 md:mb-12"
+        >
+          {bookList1.map((book, index) => (
+            <SwiperSlide key={index}>
+              <Cards
+                {...book}
+                isHovered={hoveredIndex1 === index}
+                onHover={() => setHoveredIndex1(index)}
+                onLeave={() => setHoveredIndex1(null)}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
       {/* === Shared Navigation Buttons === */}
-      {/* === Shared Navigation Buttons === */}
-<div className="relative flex justify-between items-center w-full -mt-6 mb-10">
-  {/* Prev Button */}
-  <button
-    onClick={handlePrev}
-    className="bg-gray-800 text-2xl font-bold text-white w-10 h-10 flex justify-center items-center rounded hover:bg-gray-700 transition"
-  >
-    &lt;
-  </button>
+      <div className="flex justify-center items-center gap-6 my-8 md:my-10">
+        {/* Prev Button */}
+        <button
+          onClick={handlePrev}
+          className="bg-gray-800 text-white w-12 h-12 flex justify-center items-center rounded-full hover:bg-gray-700 transition shadow-md"
+          aria-label="Previous books"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
 
-  {/* Spacer between buttons and sliders */}
-  <div className="flex-1" />
-
-  {/* Next Button */}
-  <button
-    onClick={handleNext}
-    className="bg-orange-600 text-white text-2xl font-bold  w-10 h-10 flex justify-center  items-center rounded hover:bg-orange-500 transition"
-  >
-    &gt;
-  </button>
-</div>
-
+        {/* Next Button */}
+        <button
+          onClick={handleNext}
+          className="bg-orange-600 text-white w-12 h-12 flex justify-center items-center rounded-full hover:bg-orange-500 transition shadow-md"
+          aria-label="Next books"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
 
       {/* === Second Swiper === */}
-      <Swiper
-        onSwiper={(swiper) => (swiper2Ref.current = swiper)}
-        slidesPerView={5}
-        slidesPerGroup={1}
-        spaceBetween={30}
-        modules={[Navigation]}
-        className='mt-10'
-      >
-        {bookList2.map((book, index) => (
-          <SwiperSlide key={index}>
-            <Cards
-              {...book}
-              isHovered={hoveredIndex2 === index}
-              onHover={() => setHoveredIndex2(index)}
-              onLeave={() => setHoveredIndex2(null)}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="relative">
+        <Swiper
+          onSwiper={(swiper) => (swiper2Ref.current = swiper)}
+          slidesPerView={1}
+          spaceBetween={15}
+          breakpoints={{
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            768: { slidesPerView: 3, spaceBetween: 25 },
+            1024: { slidesPerView: 5, spaceBetween: 30 }
+          }}
+          modules={[Navigation]}
+          className='mt-8 md:mt-10'
+        >
+          {bookList2.map((book, index) => (
+            <SwiperSlide key={index}>
+              <Cards
+                {...book}
+                isHovered={hoveredIndex2 === index}
+                onHover={() => setHoveredIndex2(index)}
+                onLeave={() => setHoveredIndex2(null)}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 };
