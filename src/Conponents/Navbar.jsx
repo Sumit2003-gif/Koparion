@@ -108,16 +108,6 @@ const Header = () => {
         
         {/* Desktop Header */}
         <div className="hidden md:flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Desktop Menu Button (Hidden) */}
-          <button 
-            onClick={toggleMenu}
-            className="hidden md:flex text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-          >
-            {isMenuOpen ? <FiX className="h-6 w-6" /> : <FiMenu className="h-6 w-6" />}
-          </button>
-          
           {/* Search Bar */}
           <div className={`w-full md:w-1/4 lg:max-w-sm transition-all duration-300 ${isSearchOpen ? 'block' : 'block'}`}>
             <form onSubmit={handleSearch} className="relative flex">
@@ -205,12 +195,12 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Navigation Bar */}
-      <nav className="bg-gradient-to-r from-gray-800 to-gray-900 text-white shadow-md">
+      {/* Navigation Bar - Only visible on desktop */}
+      <nav className="hidden md:block bg-gradient-to-r from-gray-800 to-gray-900 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             {/* Desktop Navigation */}
-            <div className="hidden md:flex w-full">
+            <div className="flex w-full">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center space-x-1">
                   {navLinks.map((link) => (
@@ -253,60 +243,60 @@ const Header = () => {
             </div>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile Navigation Menu */}
-        <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-gray-800 shadow-lg`}>
-          <div className="px-4 py-3 space-y-1">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.path}
-                end
-                onClick={() => setIsMenuOpen(false)}
-                className={({ isActive }) =>
-                  `block px-3 py-2.5 rounded-md text-base font-medium transition-all duration-300 ${
-                    isActive
-                      ? 'bg-gray-700 text-orange-400'
-                      : 'text-gray-200 hover:bg-gray-700 hover:text-white'
-                  }`
-                }
-              >
-                {link.name}
-              </NavLink>
-            ))}
-            
-            {/* Mobile Special Links */}
-            <div className="pt-2 pb-1 border-t border-gray-700 mt-2">
-              <div 
-                className="flex items-center gap-2 px-3 py-2.5 text-gray-200 hover:bg-gray-700 hover:text-white rounded-md cursor-pointer transition-colors"
-                onClick={addToWishlist}
-              >
-                <FiHeart className="h-5 w-5" />
-                <span>Wish List ({wishlistCount})</span>
-              </div>
-              <div className="flex items-center gap-2 px-3 py-2.5 text-gray-200 hover:bg-gray-700 hover:text-white rounded-md cursor-pointer transition-colors">
-                <FiRefreshCw className="h-5 w-5" />
-                <span>My Compare</span>
-              </div>
-              <div className="flex items-center justify-between px-3 py-2.5 text-gray-200 hover:bg-gray-700 hover:text-white rounded-md cursor-pointer transition-colors"
-                   onClick={toggleAccount}>
-                <div className="flex items-center gap-2">
-                  <FiUser className="h-5 w-5" />
-                  <span>My Account</span>
-                </div>
-                <FiChevronDown className={`h-4 w-4 transition-transform ${isAccountOpen ? 'rotate-180' : ''}`} />
-              </div>
-              {isAccountOpen && (
-                <div className="pl-8 pb-2 space-y-1">
-                  <a href="#" className="block py-1 text-sm text-gray-300 hover:text-white">Sign In</a>
-                  <a href="#" className="block py-1 text-sm text-gray-300 hover:text-white">Register</a>
-                  <a href="#" className="block py-1 text-sm text-gray-300 hover:text-white">My Orders</a>
-                </div>
-              )}
+      {/* Mobile Navigation Menu - White background */}
+      <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-white shadow-lg`}>
+        <div className="px-4 py-3 space-y-1">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.name}
+              to={link.path}
+              end
+              onClick={() => setIsMenuOpen(false)}
+              className={({ isActive }) =>
+                `block px-3 py-2.5 rounded-md text-base font-medium transition-all duration-300 ${
+                  isActive
+                    ? 'bg-gray-100 text-orange-500'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-orange-500'
+                }`
+              }
+            >
+              {link.name}
+            </NavLink>
+          ))}
+          
+          {/* Mobile Special Links */}
+          <div className="pt-2 pb-1 border-t border-gray-200 mt-2">
+            <div 
+              className="flex items-center gap-2 px-3 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-orange-500 rounded-md cursor-pointer transition-colors"
+              onClick={addToWishlist}
+            >
+              <FiHeart className="h-5 w-5" />
+              <span>Wish List ({wishlistCount})</span>
             </div>
+            <div className="flex items-center gap-2 px-3 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-orange-500 rounded-md cursor-pointer transition-colors">
+              <FiRefreshCw className="h-5 w-5" />
+              <span>My Compare</span>
+            </div>
+            <div className="flex items-center justify-between px-3 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-orange-500 rounded-md cursor-pointer transition-colors"
+                 onClick={toggleAccount}>
+              <div className="flex items-center gap-2">
+                <FiUser className="h-5 w-5" />
+                <span>My Account</span>
+              </div>
+              <FiChevronDown className={`h-4 w-4 transition-transform ${isAccountOpen ? 'rotate-180' : ''}`} />
+            </div>
+            {isAccountOpen && (
+              <div className="pl-8 pb-2 space-y-1">
+                <a href="#" className="block py-1 text-sm text-gray-600 hover:text-orange-500">Sign In</a>
+                <a href="#" className="block py-1 text-sm text-gray-600 hover:text-orange-500">Register</a>
+                <a href="#" className="block py-1 text-sm text-gray-600 hover:text-orange-500">My Orders</a>
+              </div>
+            )}
           </div>
         </div>
-      </nav>
+      </div>
     </header>
   );
 };
