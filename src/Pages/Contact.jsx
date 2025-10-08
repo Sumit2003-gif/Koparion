@@ -173,34 +173,7 @@ const Contact = () => {
         </div>
 
         {/* FAQ / Help Section */}
-        <div className="mt-16 bg-[#FFF0E1] rounded-lg p-8 shadow-inner max-w-4xl mx-auto">
-          <h3 className="text-2xl font-semibold text-[#F07C29] mb-6 text-center">Need Help?</h3>
-          <div className="space-y-4">
-            {faqData.map((item, index) => (
-              <div key={index} className="border-b border-orange-300">
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="w-full text-left py-3 flex justify-between items-center font-medium text-gray-800 hover:text-[#F07C29] focus:outline-none"
-                  aria-expanded={activeFaq === index}
-                  aria-controls={`faq-panel-${index}`}
-                >
-                  {item.question}
-                  <span className="ml-4 text-xl">
-                    {activeFaq === index ? '−' : '+'}
-                  </span>
-                </button>
-                {activeFaq === index && (
-                  <div
-                    id={`faq-panel-${index}`}
-                    className="py-2 text-gray-700 pl-4 transition"
-                  >
-                    {item.answer}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+        
 
         {/* Location Map (at the very bottom) */}
         <div className="mt-16 rounded-lg overflow-hidden shadow-lg max-w-4xl mx-auto">
